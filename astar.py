@@ -1,12 +1,12 @@
 from web3 import Web3
 
-# URL del nodo RPC de Astar
+# URL 
 astar_rpc_url = 'https://evm.shibuya.astar.network'
 
-# Conectar a la blockchain de Astar
+# Conexión blockchain
 web3 = Web3(Web3.HTTPProvider(astar_rpc_url))
 
-# Verificar la conexión
+# Verificación 
 if web3.isConnected():
     print("Conectado exitosamente a la blockchain de Astar")
 else:
