@@ -1,4 +1,26 @@
+const express = require('express');
+const bodyParser = require('body-parser');
 const axios = require('axios');
+
+// Inicialización de la aplicación Express
+const app = express();
+const port = 3000;
+
+// Middleware para analizar solicitudes JSON
+app.use(bodyParser.json());
+
+// Ruta para manejar la verificación del webhook
+app.get('/webhook', (req, res) => {
+    const mode = req.query['hub.mode'];
+    const token = req.query['hub.verify_token'];
+    const challenge = req.query['hub.challenge'];
+
+    if (mode === 'subscribe' && token === 'Mi_codigo_secreto') {
+        res.status(200).send(challenge);
+    } else {
+        res.status(403).send('Token de verificación incorrecto o ausente');
+    }
+});
 
 // Ruta para manejar los mensajes entrantes y enviar una respuesta
 app.post('/webhook', (req, res) => {
@@ -41,4 +63,9 @@ app.post('/webhook', (req, res) => {
     } else {
         res.sendStatus(404);
     }
+});
+
+// Iniciar el servidor
+app.listen(port, () => {
+    console.log(`Servidor escuchando en http://localhost:${port}`);
 });
